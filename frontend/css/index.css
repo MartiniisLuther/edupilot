@@ -179,14 +179,30 @@
 /* ── DASHBOARD LAYOUT ─────────────────────────── */
 
 /*
-   Wide layout: dashboard is a single column.
-   The three today-cards sit at the top, then dashboard__bottom
-   holds upcoming (fluid) + overview (fixed) side by side.
-   On screens >1100px the overview is wide enough to feel like a sidebar.
+   Two copies of Overview exist in the HTML:
+   .dashboard__right--sidebar  → wide screens only (sticky right column)
+   .dashboard__right--bottom   → medium/narrow only (inside dashboard__bottom grid)
+
+   WIDE (>960px):
+     .dashboard = grid 1fr 260px
+     .dashboard__left  → col 1 (date + cards + upcoming stacked)
+     .dashboard__right--sidebar → col 2 sticky
+     .dashboard__right--bottom  → display:none
+
+   MEDIUM (720–960px):
+     .dashboard = single column
+     .dashboard__left  → full width (date + cards only)
+     .dashboard__bottom → grid 1fr 260px (upcoming | overview side-by-side, equal height)
+     .dashboard__right--sidebar → display:none
+     .dashboard__right--bottom  → visible in dashboard__bottom col 2
+
+   NARROW (<720px):
+     .dashboard = single column, everything stacks
 */
+
 .dashboard {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 260px;
     gap: var(--space-6);
     max-width: var(--content-max);
     margin: 0 auto;
@@ -194,28 +210,28 @@
     align-items: start;
 }
 
+/* Left column — stacks date, cards, upcoming naturally */
+.dashboard__left {
+    min-width: 0;
+}
+
+/* Sidebar overview — sticky, wide screens only */
+.dashboard__right--sidebar {
+    position: sticky;
+    top: calc(var(--navbar-height) + var(--space-6));
+    display: flex;
+    flex-direction: column;
+}
+
+/* Bottom overview — hidden on wide, shown on medium inside dashboard__bottom */
+.dashboard__right--bottom {
+    display: none;
+}
+
+/* dashboard__bottom — transparent on wide, just a block wrapper */
 .dashboard__bottom {
-    display: grid;
-    grid-template-columns: 1fr 260px;
-    gap: var(--space-5);
-    align-items: stretch;
+    margin-top: var(--space-5);
 }
-
-.dashboard__right {
-    display: flex;
-    flex-direction: column;
-}
-
-.dashboard__right .overview-card {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.dashboard__right .overview-card__body {
-    flex: 1;
-}
-
 
 /* ── DATE / CLOCK WIDGET ──────────────────────── */
 
@@ -910,41 +926,59 @@
 }
 
 
-/* ── RESPONSIVE ───────────────────────────────── */
+/* ── RESPONSIVE ─────────────────────────────── */
 
-/*
-   ── RESPONSIVE — 3-stage layout ──────────────────────────────────────────────
+/* ── Medium (720–960px): sidebar hides, bottom pair activates ── */
+@media (max-width: 960px) {
 
-   Stage 1 — Wide (>900px):
-     today-grid = 3 columns (1.4fr 1fr 1fr)
-     dashboard__bottom = upcoming fluid | overview 260px fixed, side by side
-     overview is sticky
+    /* Collapse to single column */
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
 
-   Stage 2 — Medium (720px–900px):
-     today-grid drops to 2 columns (classes takes row, tasks+exams share a row)
-     dashboard__bottom stays side by side but overview shrinks
+    /* Hide the sidebar overview */
+    .dashboard__right--sidebar {
+        display: none;
+    }
 
-   Stage 3 — Narrow (<720px):
-     Everything single column.
-     today-grid = 1 column.
-     dashboard__bottom = 1 column (overview above upcoming).
-     Navbar hides links, shows hamburger.
-*/
+    /* dashboard__bottom becomes a 2-col grid: upcoming | overview equal height */
+    .dashboard__bottom {
+        display: grid;
+        grid-template-columns: 1fr 260px;
+        gap: var(--space-5);
+        align-items: stretch;
+        margin-top: var(--space-5);
+    }
 
-/* ── Stage 2: cards start to squash — drop to 2-col today-grid ── */
-@media (max-width: 900px) {
-    /* Classes full width, tasks + exams share a row */
+    /* Show the bottom overview copy */
+    .dashboard__right--bottom {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dashboard__right--bottom .overview-card {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dashboard__right--bottom .overview-card__body {
+        flex: 1;
+    }
+
+    /* Cards: classes spans full width, tasks + exams share a row */
     .today-grid {
         grid-template-columns: 1fr 1fr;
     }
 
     .today-card--classes {
-        grid-column: 1 / -1; /* span full width */
+        grid-column: 1 / -1;
     }
 }
 
-/* ── Stage 3: full mobile ── */
+/* ── Narrow (<720px): full single column ── */
 @media (max-width: 720px) {
+
     .navbar__links,
     .navbar__search { display: none; }
     .navbar__hamburger { display: block; }
@@ -952,15 +986,17 @@
     .today-grid { grid-template-columns: 1fr; }
     .today-card--classes { grid-column: auto; }
 
-    /* Overview stacks below upcoming on mobile */
+    /* Stack upcoming above overview */
     .dashboard__bottom {
-        grid-template-columns: 1fr;
-        align-items: start;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
     }
 
-    /* Move overview below upcoming by reversing order */
-    .dashboard__right { order: 2; }
-    .upcoming-card    { order: 1; }
+    .dashboard__right--bottom {
+        display: flex;
+        flex-direction: column;
+    }
 
     .date-widget {
         flex-direction: column;

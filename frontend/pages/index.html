@@ -17,7 +17,6 @@
 <nav class="navbar" id="navbar">
     <div class="navbar__inner">
         <div class="navbar__logo"><a href="/">EduPilot</a></div>
-
         <ul class="navbar__links" id="navLinks">
             <li><a href="/index.html"       class="nav-link"><i class="fa-solid fa-house"></i><span>home</span></a></li>
             <li><a href="/courses.html"     class="nav-link"><i class="fa-solid fa-book"></i><span>courses</span></a></li>
@@ -25,7 +24,6 @@
             <li><a href="/tasks.html"       class="nav-link"><i class="fa-solid fa-list-check"></i><span>tasks</span></a></li>
             <li><a href="/assessments.html" class="nav-link"><i class="fa-solid fa-clipboard-check"></i><span>assessments</span></a></li>
         </ul>
-
         <div class="navbar__right">
             <div class="navbar__search">
                 <i class="fa fa-search"></i>
@@ -54,7 +52,6 @@
             </button>
         </div>
     </div>
-
     <div class="mobile-sidebar" id="mobileSidebar">
         <ul class="mobile-sidebar__links">
             <li><a href="/index.html"><i class="fa-solid fa-house"></i><span>home</span></a></li>
@@ -67,9 +64,22 @@
 </nav>
 
 <main>
+    <!--
+        LAYOUT STRUCTURE
+        ════════════════
+        Wide  (>960px): .dashboard = grid 1fr 260px
+          .dashboard__left  → col 1: date + today-grid + upcoming (stacked)
+          .dashboard__right → col 2: overview sticky sidebar
+
+        Medium (720–960px): .dashboard = single column
+          .dashboard__left  → full width: date + today-grid
+          .dashboard__bottom → grid 1fr 260px: upcoming | overview side by side
+          .dashboard__right  → inside dashboard__bottom col 2
+
+        Narrow (<720px): everything single column
+    -->
     <div class="dashboard">
 
-        <!-- ═══ LEFT ═══ -->
         <section class="dashboard__left">
 
             <!-- Date widget -->
@@ -237,10 +247,14 @@
 
             </div><!-- /today-grid -->
 
-            <!-- Upcoming + Overview: side by side on medium screens -->
+            <!--
+                dashboard__bottom:
+                  Wide   → display:block, upcoming flows naturally in left column
+                  Medium → display:grid 1fr 260px — upcoming (col1) + overview (col2)
+                  Narrow → display:block, stacks vertically
+            -->
             <div class="dashboard__bottom">
 
-                <!-- Upcoming timeline -->
                 <div class="upcoming-card">
                     <div class="upcoming-card__header">
                         <h2 class="upcoming-card__title">
@@ -303,14 +317,16 @@
                         </div>
 
                     </div>
-                </div>
+                </div><!-- /upcoming-card -->
 
-                <!-- Overview sidebar (moves here on medium screens) -->
-                <aside class="dashboard__right">
+                <!--
+                    Overview inside dashboard__bottom:
+                    Hidden on wide (overview shows as sidebar instead).
+                    Visible on medium as the second column of dashboard__bottom grid.
+                -->
+                <aside class="dashboard__right dashboard__right--bottom">
                     <div class="overview-card">
-                        <div class="panel-header">
-                            <h2>Overview</h2>
-                        </div>
+                        <div class="panel-header"><h2>Overview</h2></div>
                         <div class="overview-card__body">
                             <div class="overview-tile">
                                 <span class="overview-tile__label">Semester</span>
@@ -348,6 +364,47 @@
             </div><!-- /dashboard__bottom -->
 
         </section><!-- /dashboard__left -->
+
+        <!--
+            Overview sidebar — visible only on wide screens (>960px).
+            On medium/narrow this is hidden; the copy inside dashboard__bottom shows instead.
+        -->
+        <aside class="dashboard__right dashboard__right--sidebar">
+            <div class="overview-card">
+                <div class="panel-header"><h2>Overview</h2></div>
+                <div class="overview-card__body">
+                    <div class="overview-tile">
+                        <span class="overview-tile__label">Semester</span>
+                        <span class="overview-tile__value overview-tile__value--accent">3</span>
+                    </div>
+                    <div class="overview-tile">
+                        <span class="overview-tile__label">Courses</span>
+                        <span class="overview-tile__value overview-tile__value--accent">5</span>
+                    </div>
+                    <div class="overview-tile overview-tile--gpa">
+                        <span class="overview-tile__label">GPA</span>
+                        <span class="overview-tile__value">3.8</span>
+                    </div>
+                    <div class="overview-tile">
+                        <span class="overview-tile__label">Academic Year</span>
+                        <span class="overview-tile__value">2024 / 2025</span>
+                    </div>
+                    <div class="overview-tile">
+                        <span class="overview-tile__label">Graduation Year</span>
+                        <span class="overview-tile__value">2027</span>
+                    </div>
+                </div>
+                <div class="semester-progress">
+                    <div class="semester-progress__header">
+                        <span class="semester-progress__label">Semester Progress</span>
+                        <span class="semester-progress__weeks">Week 10 / 12</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="width: 83%"></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
 
     </div><!-- /dashboard -->
 </main>
