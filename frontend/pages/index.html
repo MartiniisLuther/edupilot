@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | EduPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/variables.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="navbar__inner">
+        <div class="navbar__logo"><a href="/">EduPilot</a></div>
+
+        <ul class="navbar__links" id="navLinks">
+            <li><a href="/index.html"       class="nav-link"><i class="fa-solid fa-house"></i><span>home</span></a></li>
+            <li><a href="/courses.html"     class="nav-link"><i class="fa-solid fa-book"></i><span>courses</span></a></li>
+            <li><a href="/calendar.html"    class="nav-link"><i class="fa-solid fa-calendar-days"></i><span>calendar</span></a></li>
+            <li><a href="/tasks.html"       class="nav-link"><i class="fa-solid fa-list-check"></i><span>tasks</span></a></li>
+            <li><a href="/assessments.html" class="nav-link"><i class="fa-solid fa-clipboard-check"></i><span>assessments</span></a></li>
+        </ul>
+
+        <div class="navbar__right">
+            <div class="navbar__search">
+                <i class="fa fa-search"></i>
+                <input type="text" placeholder="find classes, tasks..." autocomplete="off" id="globalSearch">
+            </div>
+            <div class="navbar__account" id="accountWrapper">
+                <button class="navbar__cap-btn" id="gradCapBtn" aria-label="Account menu">
+                    <i class="fa fa-graduation-cap"></i>
+                </button>
+                <div class="account-dropdown" id="accountDropdown" aria-hidden="true">
+                    <div class="account-dropdown__user">
+                        <i class="fa-solid fa-user"></i>
+                        <p id="navDisplayName">Timothy Lutaaya Martyn</p>
+                    </div>
+                    <hr class="account-dropdown__divider">
+                    <a href="/account.html" class="account-dropdown__item"><i class="fa-solid fa-gear"></i> settings</a>
+                    <a href="#"             class="account-dropdown__item"><i class="fa-solid fa-circle-info"></i> help</a>
+                    <a href="/friends.html" class="account-dropdown__item"><i class="fa-solid fa-user-group"></i> invite friends</a>
+                    <a href="#"             class="account-dropdown__item account-dropdown__item--danger" id="logOffBtn">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> log off
+                    </a>
+                </div>
+            </div>
+            <button class="navbar__hamburger" id="hamburgerBtn" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <ul class="mobile-sidebar__links">
+            <li><a href="/index.html"><i class="fa-solid fa-house"></i><span>home</span></a></li>
+            <li><a href="/courses.html"><i class="fa-solid fa-book"></i><span>courses</span></a></li>
+            <li><a href="/calendar.html"><i class="fa-solid fa-calendar-days"></i><span>calendar</span></a></li>
+            <li><a href="/tasks.html"><i class="fa-solid fa-list-check"></i><span>tasks</span></a></li>
+            <li><a href="/assessments.html"><i class="fa-solid fa-clipboard-check"></i><span>assessments</span></a></li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <div class="dashboard">
+
+        <!-- ═══ LEFT ═══ -->
+        <section class="dashboard__left">
+
+            <!-- Date widget -->
+            <div class="date-widget">
+                <div class="date-widget__left">
+                    <div class="date-widget__day"  id="clockDay">Friday</div>
+                    <div class="date-widget__date" id="clockDate">06 March 2026</div>
+                </div>
+                <div class="date-widget__time" id="clockTime">18:30</div>
+            </div>
+
+            <!-- Today 3-card grid -->
+            <div class="today-grid">
+
+                <!-- CLASSES -->
+                <div class="today-card today-card--classes">
+                    <div class="today-card__header">
+                        <div class="today-card__title-group">
+                            <div class="today-card__icon today-card__icon--classes">
+                                <i class="fa-solid fa-chalkboard-user"></i>
+                            </div>
+                            <h2 class="today-card__title">Classes</h2>
+                        </div>
+                        <div class="donut-wrap">
+                            <svg class="donut" viewBox="0 0 48 48" aria-hidden="true">
+                                <circle class="donut__bg"   cx="24" cy="24" r="18"/>
+                                <circle class="donut__fill donut__fill--classes" cx="24" cy="24" r="18"
+                                        stroke-dasharray="56.5 56.5" stroke-dashoffset="14"/>
+                            </svg>
+                            <span class="donut__label">2/4</span>
+                        </div>
+                    </div>
+                    <div class="today-card__list" id="classesList">
+                        <div class="class-bar class-bar--done">
+                            <span class="class-bar__time">08:00</span>
+                            <div class="class-bar__info">
+                                <p class="class-bar__name subject--math">Mathematics</p>
+                                <p class="class-bar__sub">Room 204 · Prof. Müller</p>
+                            </div>
+                            <span class="class-bar__badge class-bar__badge--done">done</span>
+                        </div>
+                        <div class="class-bar class-bar--done">
+                            <span class="class-bar__time">10:00</span>
+                            <div class="class-bar__info">
+                                <p class="class-bar__name subject--ds">Data Structures</p>
+                                <p class="class-bar__sub">Online · Dr. Schmidt</p>
+                            </div>
+                            <span class="class-bar__badge class-bar__badge--done">done</span>
+                        </div>
+                        <div class="class-bar class-bar--next">
+                            <span class="class-bar__time">14:00</span>
+                            <div class="class-bar__info">
+                                <p class="class-bar__name subject--algo">Algorithms</p>
+                                <p class="class-bar__sub">Room 101 · Dr. Weber</p>
+                            </div>
+                            <span class="class-bar__badge class-bar__badge--next">next</span>
+                        </div>
+                        <div class="class-bar">
+                            <span class="class-bar__time">16:00</span>
+                            <div class="class-bar__info">
+                                <p class="class-bar__name subject--os">Operating Systems</p>
+                                <p class="class-bar__sub">Room 305 · Prof. Klein</p>
+                            </div>
+                            <span class="class-bar__badge">later</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TASKS -->
+                <div class="today-card today-card--tasks">
+                    <div class="today-card__header">
+                        <div class="today-card__title-group">
+                            <div class="today-card__icon today-card__icon--tasks">
+                                <i class="fa-solid fa-list-check"></i>
+                            </div>
+                            <h2 class="today-card__title">Tasks</h2>
+                        </div>
+                        <div class="donut-wrap">
+                            <svg class="donut" viewBox="0 0 48 48" aria-hidden="true">
+                                <circle class="donut__bg"   cx="24" cy="24" r="18"/>
+                                <circle class="donut__fill donut__fill--tasks" cx="24" cy="24" r="18"
+                                        stroke-dasharray="37.7 75.4" stroke-dashoffset="14"/>
+                            </svg>
+                            <span class="donut__label">1/3</span>
+                        </div>
+                    </div>
+                    <div class="today-card__list" id="tasksList">
+                        <div class="task-item task-item--done">
+                            <button class="task-item__check task-item__check--checked" aria-label="Mark incomplete">
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                            <div class="task-item__info">
+                                <p class="task-item__name">Read Chapter 5</p>
+                                <p class="task-item__sub"><span class="subject--ds">Data Structures</span> · done</p>
+                            </div>
+                        </div>
+                        <div class="task-item">
+                            <button class="task-item__check" aria-label="Mark complete"></button>
+                            <div class="task-item__info">
+                                <p class="task-item__name">Assignment submission</p>
+                                <p class="task-item__sub"><span class="subject--algo">Algorithms</span> · due 14:00</p>
+                            </div>
+                        </div>
+                        <div class="tasks-more">
+                            <a href="/tasks.html">+ 1 more task →</a>
+                        </div>
+                    </div>
+                    <div class="today-card__footer">
+                        <button class="btn-add" id="addTaskBtn">
+                            <i class="fa-solid fa-plus"></i> add task
+                        </button>
+                    </div>
+                </div>
+
+                <!-- EXAMS -->
+                <div class="today-card today-card--exams">
+                    <div class="today-card__header">
+                        <div class="today-card__title-group">
+                            <div class="today-card__icon today-card__icon--exams">
+                                <i class="fa-solid fa-file-pen"></i>
+                            </div>
+                            <h2 class="today-card__title">Exams</h2>
+                        </div>
+                        <div class="donut-wrap">
+                            <svg class="donut" viewBox="0 0 48 48" aria-hidden="true">
+                                <circle class="donut__bg"   cx="24" cy="24" r="18"/>
+                                <circle class="donut__fill donut__fill--exams" cx="24" cy="24" r="18"
+                                        stroke-dasharray="28.3 84.8" stroke-dashoffset="14"/>
+                            </svg>
+                            <span class="donut__label">1/4</span>
+                        </div>
+                    </div>
+                    <div class="today-card__list" id="examsList">
+                        <div class="exam-item exam-item--past">
+                            <div class="exam-item__date">Feb 12</div>
+                            <div class="exam-item__info">
+                                <p class="exam-item__name subject--math">Mathematics</p>
+                                <p class="exam-item__sub">Written · passed</p>
+                            </div>
+                            <span class="exam-item__status exam-item__status--past">done</span>
+                        </div>
+                        <div class="exam-item exam-item--soon">
+                            <div class="exam-item__date">Mar 20</div>
+                            <div class="exam-item__info">
+                                <p class="exam-item__name subject--algo">Algorithms</p>
+                                <p class="exam-item__sub">Written · 14 days</p>
+                            </div>
+                            <span class="exam-item__status exam-item__status--soon">soon</span>
+                        </div>
+                        <div class="exam-item">
+                            <div class="exam-item__date">Apr 15</div>
+                            <div class="exam-item__info">
+                                <p class="exam-item__name subject--os">Operating Systems</p>
+                                <p class="exam-item__sub">Oral · 40 days</p>
+                            </div>
+                            <span class="exam-item__status">later</span>
+                        </div>
+                    </div>
+                    <div class="today-card__footer">
+                        <button class="btn-add" id="addExamBtn">
+                            <i class="fa-solid fa-plus"></i> add exam
+                        </button>
+                    </div>
+                </div>
+
+            </div><!-- /today-grid -->
+
+            <!-- Upcoming + Overview: side by side on medium screens -->
+            <div class="dashboard__bottom">
+
+                <!-- Upcoming timeline -->
+                <div class="upcoming-card">
+                    <div class="upcoming-card__header">
+                        <h2 class="upcoming-card__title">
+                            <i class="fa-solid fa-arrow-trend-up"></i> Upcoming
+                        </h2>
+                        <span class="upcoming-card__sub">next events across all categories</span>
+                    </div>
+                    <div class="upcoming-card__timeline" id="upcomingTimeline">
+
+                        <div class="timeline-group timeline-group--today">
+                            <span class="timeline-group__label">Today</span>
+                            <div class="timeline-item timeline-item--class">
+                                <span class="timeline-item__time">10:00</span>
+                                <div class="timeline-item__icon timeline-item__icon--class">
+                                    <i class="fa-solid fa-chalkboard-user"></i>
+                                </div>
+                                <div class="timeline-item__body">
+                                    <p class="timeline-item__name subject--ds">Data Structures</p>
+                                    <p class="timeline-item__sub">Room 101</p>
+                                </div>
+                                <span class="timeline-item__tag timeline-item__tag--class">class</span>
+                            </div>
+                            <div class="timeline-item timeline-item--task">
+                                <span class="timeline-item__time">14:00</span>
+                                <div class="timeline-item__icon timeline-item__icon--task">
+                                    <i class="fa-solid fa-list-check"></i>
+                                </div>
+                                <div class="timeline-item__body">
+                                    <p class="timeline-item__name">Assignment Due</p>
+                                    <p class="timeline-item__sub"><span class="subject--algo">Algorithms</span></p>
+                                </div>
+                                <span class="timeline-item__tag timeline-item__tag--task">task</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-group timeline-group--upcoming">
+                            <span class="timeline-group__label">Coming up</span>
+                            <div class="timeline-item timeline-item--exam">
+                                <span class="timeline-item__time">Mar 20</span>
+                                <div class="timeline-item__icon timeline-item__icon--exam">
+                                    <i class="fa-solid fa-file-pen"></i>
+                                </div>
+                                <div class="timeline-item__body">
+                                    <p class="timeline-item__name subject--algo">Algorithms Exam</p>
+                                    <p class="timeline-item__sub">Written · Room 204</p>
+                                </div>
+                                <span class="timeline-item__tag timeline-item__tag--exam">exam</span>
+                            </div>
+                            <div class="timeline-item timeline-item--holiday">
+                                <span class="timeline-item__time">Apr 01–04</span>
+                                <div class="timeline-item__icon timeline-item__icon--holiday">
+                                    <i class="fa-solid fa-umbrella-beach"></i>
+                                </div>
+                                <div class="timeline-item__body">
+                                    <p class="timeline-item__name">Easter Holiday</p>
+                                    <p class="timeline-item__sub">No classes</p>
+                                </div>
+                                <span class="timeline-item__tag timeline-item__tag--holiday">holiday</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Overview sidebar (moves here on medium screens) -->
+                <aside class="dashboard__right">
+                    <div class="overview-card">
+                        <div class="panel-header">
+                            <h2>Overview</h2>
+                        </div>
+                        <div class="overview-card__body">
+                            <div class="overview-tile">
+                                <span class="overview-tile__label">Semester</span>
+                                <span class="overview-tile__value overview-tile__value--accent">3</span>
+                            </div>
+                            <div class="overview-tile">
+                                <span class="overview-tile__label">Courses</span>
+                                <span class="overview-tile__value overview-tile__value--accent">5</span>
+                            </div>
+                            <div class="overview-tile overview-tile--gpa">
+                                <span class="overview-tile__label">GPA</span>
+                                <span class="overview-tile__value">3.8</span>
+                            </div>
+                            <div class="overview-tile">
+                                <span class="overview-tile__label">Academic Year</span>
+                                <span class="overview-tile__value">2024 / 2025</span>
+                            </div>
+                            <div class="overview-tile">
+                                <span class="overview-tile__label">Graduation Year</span>
+                                <span class="overview-tile__value">2027</span>
+                            </div>
+                        </div>
+                        <div class="semester-progress">
+                            <div class="semester-progress__header">
+                                <span class="semester-progress__label">Semester Progress</span>
+                                <span class="semester-progress__weeks">Week 10 / 12</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: 83%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+            </div><!-- /dashboard__bottom -->
+
+        </section><!-- /dashboard__left -->
+
+    </div><!-- /dashboard -->
+</main>
+
+<!-- Add Task Modal -->
+<div class="modal-overlay" id="taskModal" aria-hidden="true">
+    <div class="modal">
+        <div class="modal__header">
+            <h2 id="modalTitle">Add Task</h2>
+            <button class="modal__close" id="closeModalBtn" aria-label="Close modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal__body">
+            <div class="form-group">
+                <label for="taskName">Task name</label>
+                <input type="text" id="taskName" placeholder="e.g. Read chapter 4" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="taskCourse">Course</label>
+                <input type="text" id="taskCourse" placeholder="e.g. Algorithms" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="taskDue">Due date</label>
+                <input type="date" id="taskDue">
+            </div>
+        </div>
+        <div class="modal__footer">
+            <button class="btn-secondary" id="cancelModalBtn">Cancel</button>
+            <button class="btn-primary"   id="saveModalBtn">Save</button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/index.js"></script>
+</body>
+</html>
