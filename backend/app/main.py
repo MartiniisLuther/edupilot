@@ -35,7 +35,7 @@ async def lifespan(app: FastAPI):
                          # anything after yield runs on shutdown
 
 # Import routers (uncomment as each is built out)
-# from app.routers import user, course, task, exam, grade, calendar
+# from app.routers import user, course, task, exam, grade, calendar.css
 
 # ── App instance ──────────────────────────────────────────────────────────────
 app = FastAPI(
@@ -98,7 +98,7 @@ async def serve_page(page_name: str):
 # app.include_router(task.router,     prefix="/api/tasks",    tags=["Tasks"])
 # app.include_router(exam.router,     prefix="/api/exams",    tags=["Exams"])
 # app.include_router(grade.router,    prefix="/api/grades",   tags=["Grades"])
-# app.include_router(calendar.router, prefix="/api/calendar", tags=["Calendar"])
+# app.include_router(calendar.css.router, prefix="/api/calendar.css", tags=["Calendar"])
 
 
 

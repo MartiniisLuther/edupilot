@@ -11,7 +11,7 @@ env/
 .venv/
 
 # ── Frontend assets ──────────────────────────────────────
-frontend/assets/
+frontend/assets/img
 
 # ── Database ──────────────────────────────────────
 *.db

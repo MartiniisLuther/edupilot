@@ -41,5 +41,5 @@ def create_tables():
     """
     # Import models here so Base knows about them before create_all()
     # Uncomment each as you create the model file:
-    # from app.models import user, course, task, exam, grade, calendar
+    # from app.models import user, course, task, exam, grade, calendar.css
     Base.metadata.create_all(bind=engine)

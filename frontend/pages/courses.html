@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses | EduPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/variables.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/animations.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+    <link rel="stylesheet" href="/static/css/courses.css">
+</head>
+<body>
+
+<!-- ── NAVBAR ─────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+    <div class="navbar__inner">
+        <div class="navbar__logo"><a href="/">EduPilot</a></div>
+        <ul class="navbar__links" id="navLinks">
+            <li><a href="/index.html"       class="nav-link"><i class="fa-solid fa-house"></i><span>home</span></a></li>
+            <li><a href="/courses.html"     class="nav-link"><i class="fa-solid fa-book"></i><span>courses</span></a></li>
+            <li><a href="/calendar.html"    class="nav-link"><i class="fa-solid fa-calendar-days"></i><span>calendar</span></a></li>
+            <li><a href="/tasks.html"       class="nav-link"><i class="fa-solid fa-list-check"></i><span>tasks</span></a></li>
+            <li><a href="/assessments.html" class="nav-link"><i class="fa-solid fa-clipboard-check"></i><span>assessments</span></a></li>
+        </ul>
+        <div class="navbar__right">
+            <div class="navbar__search">
+                <i class="fa fa-search"></i>
+                <input type="text" placeholder="find classes, tasks..." autocomplete="off" id="globalSearch">
+            </div>
+            <div class="navbar__account" id="accountWrapper">
+                <button class="navbar__cap-btn" id="gradCapBtn" aria-label="Account menu">
+                    <i class="fa fa-graduation-cap"></i>
+                </button>
+                <div class="account-dropdown" id="accountDropdown" aria-hidden="true">
+                    <div class="account-dropdown__user">
+                        <i class="fa-solid fa-user"></i>
+                        <p id="navDisplayName">Timothy Lutaaya Martyn</p>
+                    </div>
+                    <hr class="account-dropdown__divider">
+                    <a href="/account.html" class="account-dropdown__item"><i class="fa-solid fa-gear"></i> settings</a>
+                    <a href="#"             class="account-dropdown__item"><i class="fa-solid fa-circle-info"></i> help</a>
+                    <a href="#"             class="account-dropdown__item account-dropdown__item--danger">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> log off
+                    </a>
+                </div>
+            </div>
+            <button class="navbar__hamburger" id="hamburgerBtn" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <ul class="mobile-sidebar__links">
+            <li><a href="/index.html"><i class="fa-solid fa-house"></i><span>home</span></a></li>
+            <li><a href="/courses.html"><i class="fa-solid fa-book"></i><span>courses</span></a></li>
+            <li><a href="/calendar.html"><i class="fa-solid fa-calendar-days"></i><span>calendar</span></a></li>
+            <li><a href="/tasks.html"><i class="fa-solid fa-list-check"></i><span>tasks</span></a></li>
+            <li><a href="/assessments.html"><i class="fa-solid fa-clipboard-check"></i><span>assessments</span></a></li>
+        </ul>
+    </div>
+</nav>
+
+<main class="courses-page">
+
+    <!-- ── PAGE HEADER ──────────────────────────── -->
+    <div class="page-header">
+        <div class="page-header__left">
+            <h1 class="page-header__title">Courses</h1>
+            <div class="current-sem-badge" id="pageHeaderSub">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span class="current-sem-badge__text">Semester 3</span>
+                <span class="current-sem-badge__sep">·</span>
+                <span class="current-sem-badge__year">2024 / 2025</span>
+            </div>
+        </div>
+        <div class="page-header__right">
+            <button class="btn-primary-icon" id="addCourseBtn">
+                <i class="fa-solid fa-plus"></i>
+                <span>Add Course</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ── FILTER / STATS BAR ────────────────────── -->
+    <div class="stats-filter-bar" id="statsFilterBar" role="tablist">
+        <button class="stats-pill stats-pill--active" data-filter="active" role="tab" aria-selected="true">
+            <i class="fa-solid fa-circle-check"></i>
+            <span class="stats-pill__label">Active</span>
+            <strong class="stats-pill__value" id="activeCount">3</strong>
+        </button>
+        <button class="stats-pill" data-filter="past" role="tab" aria-selected="false">
+            <i class="fa-solid fa-flag-checkered"></i>
+            <span class="stats-pill__label">Completed</span>
+            <strong class="stats-pill__value" id="pastCount">2</strong>
+        </button>
+        <button class="stats-pill" data-filter="all" role="tab" aria-selected="false">
+            <i class="fa-solid fa-book-open"></i>
+            <span class="stats-pill__label">All Courses</span>
+            <strong class="stats-pill__value" id="totalCount">5</strong>
+        </button>
+        <div class="stats-pill stats-pill--static">
+            <i class="fa-solid fa-certificate"></i>
+            <span class="stats-pill__label">Credits</span>
+            <strong class="stats-pill__value">18</strong>
+        </div>
+        <div class="stats-pill stats-pill--static stats-pill--gpa">
+            <i class="fa-solid fa-star"></i>
+            <span class="stats-pill__label">GPA</span>
+            <strong class="stats-pill__value">3.8</strong>
+        </div>
+    </div>
+
+    <!-- ── ACADEMIC STRUCTURE ───────────────────── -->
+    <div class="acad-panel" id="acadPanel">
+        <button class="acad-panel__toggle" id="acadToggle" aria-expanded="false">
+            <div class="acad-panel__toggle-left">
+                <i class="fa-solid fa-sitemap"></i>
+                <span class="acad-panel__toggle-title">Academic Structure</span>
+                <span class="acad-panel__toggle-hint">Define your years &amp; semesters</span>
+            </div>
+            <i class="fa-solid fa-chevron-down acad-panel__chevron" id="acadChevron"></i>
+        </button>
+
+        <div class="acad-panel__body" id="acadBody" aria-hidden="true">
+            <div class="acad-panel__inner">
+
+                <!-- Years list -->
+                <div class="acad-years" id="acadYears">
+
+                    <!-- Year row -->
+                    <div class="acad-year" data-year-id="1">
+                        <div class="acad-year__header">
+                            <button class="acad-year__expand" aria-expanded="true" aria-label="Toggle year">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                            <span class="acad-year__label">2024 / 2025</span>
+                            <span class="acad-year__badge">Current</span>
+                            <div class="acad-year__actions">
+                                <button class="acad-action" data-action="rename-year" data-id="1" aria-label="Rename year">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button class="acad-action acad-action--danger" data-action="delete-year" data-id="1" aria-label="Delete year">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="acad-semesters" id="semesters-year-1">
+                            <div class="acad-semester acad-semester--current" data-sem-id="1-3">
+                                <div class="acad-semester__dot"></div>
+                                <span class="acad-semester__name">Semester 3</span>
+                                <span class="acad-semester__tag">Current</span>
+                                <div class="acad-semester__actions">
+                                    <button class="acad-action" data-action="rename-sem" data-id="1-3" aria-label="Rename">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button class="acad-action" data-action="set-current" data-id="1-3" aria-label="Set as current" title="Set as current">
+                                        <i class="fa-solid fa-star"></i>
+                                    </button>
+                                    <button class="acad-action acad-action--danger" data-action="delete-sem" data-id="1-3" aria-label="Delete">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="acad-semester" data-sem-id="1-2">
+                                <div class="acad-semester__dot"></div>
+                                <span class="acad-semester__name">Semester 2</span>
+                                <span class="acad-semester__tag acad-semester__tag--done">Done</span>
+                                <div class="acad-semester__actions">
+                                    <button class="acad-action" data-action="rename-sem" data-id="1-2" aria-label="Rename">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button class="acad-action" data-action="set-current" data-id="1-2" aria-label="Set as current" title="Set as current">
+                                        <i class="fa-solid fa-star"></i>
+                                    </button>
+                                    <button class="acad-action acad-action--danger" data-action="delete-sem" data-id="1-2" aria-label="Delete">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="acad-semester" data-sem-id="1-1">
+                                <div class="acad-semester__dot"></div>
+                                <span class="acad-semester__name">Semester 1</span>
+                                <span class="acad-semester__tag acad-semester__tag--done">Done</span>
+                                <div class="acad-semester__actions">
+                                    <button class="acad-action" data-action="rename-sem" data-id="1-1" aria-label="Rename">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button class="acad-action" data-action="set-current" data-id="1-1" aria-label="Set as current" title="Set as current">
+                                        <i class="fa-solid fa-star"></i>
+                                    </button>
+                                    <button class="acad-action acad-action--danger" data-action="delete-sem" data-id="1-1" aria-label="Delete">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Add semester inline -->
+                            <button class="add-sem-btn" data-year-id="1">
+                                <i class="fa-solid fa-plus"></i> add semester
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Year row (older) -->
+                    <div class="acad-year acad-year--collapsed" data-year-id="0">
+                        <div class="acad-year__header">
+                            <button class="acad-year__expand" aria-expanded="false" aria-label="Toggle year">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                            <span class="acad-year__label">2023 / 2024</span>
+                            <div class="acad-year__actions">
+                                <button class="acad-action" data-action="rename-year" data-id="0" aria-label="Rename year">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button class="acad-action acad-action--danger" data-action="delete-year" data-id="0" aria-label="Delete year">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="acad-semesters acad-semesters--hidden" id="semesters-year-0">
+                            <div class="acad-semester" data-sem-id="0-2">
+                                <div class="acad-semester__dot"></div>
+                                <span class="acad-semester__name">Semester 2</span>
+                                <span class="acad-semester__tag acad-semester__tag--done">Done</span>
+                                <div class="acad-semester__actions">
+                                    <button class="acad-action" data-action="rename-sem" data-id="0-2"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="acad-action" data-action="set-current" data-id="0-2"><i class="fa-solid fa-star"></i></button>
+                                    <button class="acad-action acad-action--danger" data-action="delete-sem" data-id="0-2"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="acad-semester" data-sem-id="0-1">
+                                <div class="acad-semester__dot"></div>
+                                <span class="acad-semester__name">Semester 1</span>
+                                <span class="acad-semester__tag acad-semester__tag--done">Done</span>
+                                <div class="acad-semester__actions">
+                                    <button class="acad-action" data-action="rename-sem" data-id="0-1"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="acad-action" data-action="set-current" data-id="0-1"><i class="fa-solid fa-star"></i></button>
+                                    <button class="acad-action acad-action--danger" data-action="delete-sem" data-id="0-1"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <button class="add-sem-btn" data-year-id="0">
+                                <i class="fa-solid fa-plus"></i> add semester
+                            </button>
+                        </div>
+                    </div>
+
+                </div><!-- /acad-years -->
+
+                <!-- Add year button -->
+                <button class="add-year-btn" id="addYearBtn">
+                    <i class="fa-solid fa-plus"></i> Add Academic Year
+                </button>
+
+            </div><!-- /acad-panel__inner -->
+        </div><!-- /acad-panel__body -->
+    </div><!-- /acad-panel -->
+
+    <!-- ── COURSES GRID ──────────────────────────── -->
+    <div class="courses-grid" id="coursesGrid">
+
+        <!-- Course Card -->
+        <div class="course-card" data-status="active" data-id="1">
+            <div class="course-card__stripe" style="background: #3B82F6;"></div>
+            <div class="course-card__body">
+                <div class="course-card__top">
+                    <div class="course-card__code-wrap">
+                        <span class="course-card__code">MATH 201</span>
+                        <span class="course-card__status course-card__status--active">Active</span>
+                    </div>
+                    <div class="course-card__actions">
+                        <button class="card-action" data-action="edit" data-id="1" aria-label="Edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button class="card-action card-action--danger" data-action="delete" data-id="1" aria-label="Remove">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <h2 class="course-card__name" style="color: #3B82F6;">Mathematics</h2>
+                <p class="course-card__prof"><i class="fa-solid fa-user-tie"></i> Prof. Müller</p>
+                <div class="course-card__meta">
+                    <span class="course-meta-tag"><i class="fa-solid fa-calendar-week"></i> Mon · Wed · Fri</span>
+                    <span class="course-meta-tag"><i class="fa-solid fa-clock"></i> 08:00 – 09:30</span>
+                    <span class="course-meta-tag"><i class="fa-solid fa-location-dot"></i> Room 204</span>
+                </div>
+                <div class="course-card__footer">
+                    <div class="course-credits">
+                        <i class="fa-solid fa-certificate"></i>
+                        <span>4 credits</span>
+                    </div>
+                    <div class="course-grade course-grade--pending">
+                        <span class="course-grade__label">Grade</span>
+                        <span class="course-grade__value">Pending</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Card -->
+        <div class="course-card" data-status="active" data-id="2">
+            <div class="course-card__stripe" style="background: #8B5CF6;"></div>
+            <div class="course-card__body">
+                <div class="course-card__top">
+                    <div class="course-card__code-wrap">
+                        <span class="course-card__code">CS 301</span>
+                        <span class="course-card__status course-card__status--active">Active</span>
+                    </div>
+                    <div class="course-card__actions">
+                        <button class="card-action" data-action="edit" data-id="2" aria-label="Edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button class="card-action card-action--danger" data-action="delete" data-id="2" aria-label="Remove">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <h2 class="course-card__name" style="color: #8B5CF6;">Data Structures</h2>
+                <p class="course-card__prof"><i class="fa-solid fa-user-tie"></i> Dr. Schmidt</p>
+                <div class="course-card__meta">
+                    <span class="course-meta-tag"><i class="fa-solid fa-calendar-week"></i> Tue · Thu</span>
+                    <span class="course-meta-tag"><i class="fa-solid fa-clock"></i> 10:00 – 11:30</span>
+                    <span class="course-meta-tag"><i class="fa-solid fa-wifi"></i> Online</span>
+                </div>
+                <div class="course-card__footer">
+                    <div class="course-credits">
+                        <i class="fa-solid fa-certificate"></i>
+                        <span>4 credits</span>
+                    </div>
+                    <div class="course-grade course-grade--pending">
+                        <span class="course-grade__label">Grade</span>
+                        <span class="course-grade__value">Pending</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Card -->
+        <div class="course-card" data-status="active" data-id="3">
+            <div class="course-card__stripe" style="background: #F59E0B;"></div>
+            <div class="course-card__body">
+                <div class="course-card__top">
+                    <div class="course-card__code-wrap">
+                        <span class="course-card__code">CS 401</span>
+                        <span class="course-card__status course-card__status--active">Active</span>
+                    </div>
+                    <div class="course-card__actions">
+                        <button class="card-action" data-action="edit" data-id="3" aria-label="Edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button class="card-action card-action--danger" data-action="delete" data-id="3" aria-label="Remove">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <h2 class="course-card__name" style="color: #F59E0B;">Algorithms</h2>
+                <p class="course-card__prof"><i class="fa-solid fa-user-tie"></i> Dr. Weber</p>
+                <div class="course-card__meta">
+                    <span class="course-meta-tag"><i class="fa-solid fa-calendar-week"></i> Mon · Wed</span>
+                    <span class="course-meta-tag"><i class="fa-solid fa-clock"></i> 14:00 – 15:30</span>
+                    <span class="course-meta-tag"><i class="fa-solid fa-location-dot"></i> Room 101</span>
+                </div>
+                <div class="course-card__footer">
+                    <div class="course-credits">
+                        <i class="fa-solid fa-certificate"></i>
+                        <span>4 credits</span>
+                    </div>
+                    <div class="course-grade course-grade--pending">
+                        <span class="course-grade__label">Grade</span>
+                        <span class="course-grade__value">Pending</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Card -->
+        <div class="course-card" data-status="active" data-id="4">
+            <div class="course-card__stripe" style="background: #10B981;"></div>
+            <div class="course-card__body">
+                <div class="course-card__top">
+                    <div class="course-card__code-wrap">
+                        <span class="course-card__code">CS 321</span>
+                        <span class="course-card__status course-card__status--active">Active</span>
+                    </div>
+                    <div class="course-card__actions">
+                        <button class="card-action" data-action="edit" data-id="4" aria-label="Edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button class="card-action card-action--danger" data-action="delete" data-id="4" aria-label="Remove">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <h2 class="course-card__name" style="color: #10B981;">Operating Systems</h2>
+                <p class="course-card__prof"><i class="fa-solid fa-user-tie"></i> Prof. Klein</p>
+                <div class="course-card__meta">
+                    <span class="course-meta-tag"><i class="fa-solid fa-calendar-week"></i> Tue · Thu · Fri</span>
+                    <span class="course-meta-tag"><i class="fa-solid fa-clock"></i> 16:00 – 17:00</span>
+                    <span class="course-meta-tag"><i class="fa-solid fa-location-dot"></i> Room 305</span>
+                </div>
+                <div class="course-card__footer">
+                    <div class="course-credits">
+                        <i class="fa-solid fa-certificate"></i>
+                        <span>3 credits</span>
+                    </div>
+                    <div class="course-grade course-grade--pending">
+                        <span class="course-grade__label">Grade</span>
+                        <span class="course-grade__value">Pending</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Card — Past -->
+        <div class="course-card course-card--past" data-status="past" data-id="5">
+            <div class="course-card__stripe" style="background: #EF4444;"></div>
+            <div class="course-card__body">
+                <div class="course-card__top">
+                    <div class="course-card__code-wrap">
+                        <span class="course-card__code">DB 210</span>
+                        <span class="course-card__status course-card__status--past">Completed</span>
+                    </div>
+                    <div class="course-card__actions">
+                        <button class="card-action" data-action="edit" data-id="5" aria-label="Edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button class="card-action card-action--danger" data-action="delete" data-id="5" aria-label="Remove">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <h2 class="course-card__name" style="color: #EF4444;">Databases</h2>
+                <p class="course-card__prof"><i class="fa-solid fa-user-tie"></i> Prof. Bauer</p>
+                <div class="course-card__meta">
+                    <span class="course-meta-tag"><i class="fa-solid fa-calendar-week"></i> Mon · Wed</span>
+                    <span class="course-meta-tag"><i class="fa-solid fa-clock"></i> 12:00 – 13:30</span>
+                    <span class="course-meta-tag"><i class="fa-solid fa-location-dot"></i> Room 102</span>
+                </div>
+                <div class="course-card__footer">
+                    <div class="course-credits">
+                        <i class="fa-solid fa-certificate"></i>
+                        <span>3 credits</span>
+                    </div>
+                    <div class="course-grade course-grade--graded">
+                        <span class="course-grade__label">Final Grade</span>
+                        <span class="course-grade__value">A−</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Course Card (ghost) -->
+        <div class="course-card course-card--ghost" id="addCourseCard" role="button" tabindex="0" aria-label="Add new course">
+            <i class="fa-solid fa-plus"></i>
+            <span>Add Course</span>
+        </div>
+
+    </div><!-- /courses-grid -->
+
+</main>
+
+<!-- ── ADD / EDIT COURSE MODAL ──────────────────── -->
+<div class="modal-overlay" id="courseModal" aria-hidden="true">
+    <div class="modal modal--wide">
+        <div class="modal__header">
+            <h2 id="courseModalTitle">Add Course</h2>
+            <button class="modal__close" id="closeCourseModal" aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal__body">
+            <div class="modal-form-grid">
+
+                <div class="form-group form-group--full">
+                    <label for="courseName">Course name</label>
+                    <input type="text" id="courseName" placeholder="e.g. Linear Algebra" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="courseCode">Course code</label>
+                    <input type="text" id="courseCode" placeholder="e.g. MATH 301" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="courseCredits">Credits</label>
+                    <input type="number" id="courseCredits" placeholder="e.g. 4" min="1" max="12">
+                </div>
+
+                <div class="form-group form-group--full">
+                    <label for="courseProfessor">Professor</label>
+                    <input type="text" id="courseProfessor" placeholder="e.g. Prof. Müller" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label>Days</label>
+                    <div class="day-picker" id="dayPicker">
+                        <button class="day-btn" data-day="Mon">Mo</button>
+                        <button class="day-btn" data-day="Tue">Tu</button>
+                        <button class="day-btn" data-day="Wed">We</button>
+                        <button class="day-btn" data-day="Thu">Th</button>
+                        <button class="day-btn" data-day="Fri">Fr</button>
+                        <button class="day-btn" data-day="Sat">Sa</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Time</label>
+                    <div class="time-row">
+                        <input type="time" id="courseTimeStart" step="300">
+                        <span class="time-sep">–</span>
+                        <input type="time" id="courseTimeEnd" step="300">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="courseRoom">Room / Location</label>
+                    <input type="text" id="courseRoom" placeholder="e.g. Room 204 or Online" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="courseSemester">Semester</label>
+                    <select id="courseSemester">
+                        <optgroup label="2024 / 2025 (Current)">
+                            <option value="1-3" selected>Semester 3 (Current)</option>
+                            <option value="1-2">Semester 2</option>
+                            <option value="1-1">Semester 1</option>
+                        </optgroup>
+                        <optgroup label="2023 / 2024">
+                            <option value="0-2">Semester 2</option>
+                            <option value="0-1">Semester 1</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="form-group form-group--full">
+                    <label>Course colour</label>
+                    <div class="colour-picker" id="colourPicker">
+                        <!-- Row 1: Blues & Purples -->
+                        <button class="colour-swatch colour-swatch--active" data-colour="#0066FF" style="background:#0066FF;" aria-label="Royal Blue"></button>
+                        <button class="colour-swatch" data-colour="#3B82F6" style="background:#3B82F6;" aria-label="Sky Blue"></button>
+                        <button class="colour-swatch" data-colour="#06B6D4" style="background:#06B6D4;" aria-label="Cyan"></button>
+                        <button class="colour-swatch" data-colour="#8B5CF6" style="background:#8B5CF6;" aria-label="Violet"></button>
+                        <button class="colour-swatch" data-colour="#6366F1" style="background:#6366F1;" aria-label="Indigo"></button>
+                        <button class="colour-swatch" data-colour="#A855F7" style="background:#A855F7;" aria-label="Purple"></button>
+                        <button class="colour-swatch" data-colour="#EC4899" style="background:#EC4899;" aria-label="Pink"></button>
+                        <button class="colour-swatch" data-colour="#F43F5E" style="background:#F43F5E;" aria-label="Rose"></button>
+                        <!-- Row 2: Warm & Greens -->
+                        <button class="colour-swatch" data-colour="#EF4444" style="background:#EF4444;" aria-label="Red"></button>
+                        <button class="colour-swatch" data-colour="#F97316" style="background:#F97316;" aria-label="Orange"></button>
+                        <button class="colour-swatch" data-colour="#F59E0B" style="background:#F59E0B;" aria-label="Amber"></button>
+                        <button class="colour-swatch" data-colour="#EAB308" style="background:#EAB308;" aria-label="Yellow"></button>
+                        <button class="colour-swatch" data-colour="#84CC16" style="background:#84CC16;" aria-label="Lime"></button>
+                        <button class="colour-swatch" data-colour="#22C55E" style="background:#22C55E;" aria-label="Green"></button>
+                        <button class="colour-swatch" data-colour="#10B981" style="background:#10B981;" aria-label="Emerald"></button>
+                        <button class="colour-swatch" data-colour="#14B8A6" style="background:#14B8A6;" aria-label="Teal"></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal__footer">
+            <button class="btn-secondary" id="cancelCourseModal">Cancel</button>
+            <button class="btn-primary"   id="saveCourseBtn">Save Course</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── DELETE CONFIRM MODAL ─────────────────────── -->
+<div class="modal-overlay" id="deleteModal" aria-hidden="true">
+    <div class="modal modal--narrow">
+        <div class="modal__header modal__header--danger">
+            <h2>Remove Course</h2>
+            <button class="modal__close" id="closeDeleteModal" aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal__body">
+            <p class="delete-warning">
+                Are you sure you want to remove <strong id="deleteCourseNameLabel">this course</strong>?
+                All associated tasks and exams will also be removed.
+            </p>
+        </div>
+        <div class="modal__footer">
+            <button class="btn-secondary" id="cancelDeleteModal">Cancel</button>
+            <button class="btn-danger"    id="confirmDeleteBtn">Yes, remove</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── ADD YEAR MODAL ───────────────────────────── -->
+<div class="modal-overlay" id="addYearModal" aria-hidden="true">
+    <div class="modal modal--narrow">
+        <div class="modal__header">
+            <h2 id="addYearModalTitle">Add Academic Year</h2>
+            <button class="modal__close" id="closeAddYearModal" aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal__body">
+            <div class="form-group">
+                <label for="yearName">Year label</label>
+                <input type="text" id="yearName" placeholder="e.g. 2025 / 2026" autocomplete="off">
+            </div>
+        </div>
+        <div class="modal__footer">
+            <button class="btn-secondary" id="cancelAddYearModal">Cancel</button>
+            <button class="btn-primary"   id="saveYearBtn">Add Year</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── RENAME MODAL ─────────────────────────────── -->
+<div class="modal-overlay" id="renameModal" aria-hidden="true">
+    <div class="modal modal--narrow">
+        <div class="modal__header">
+            <h2 id="renameModalTitle">Rename</h2>
+            <button class="modal__close" id="closeRenameModal" aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal__body">
+            <div class="form-group">
+                <label for="renameInput">New name</label>
+                <input type="text" id="renameInput" autocomplete="off">
+            </div>
+        </div>
+        <div class="modal__footer">
+            <button class="btn-secondary" id="cancelRenameModal">Cancel</button>
+            <button class="btn-primary"   id="saveRenameBtn">Save</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── ADD SEMESTER MODAL ───────────────────────── -->
+<div class="modal-overlay" id="addSemModal" aria-hidden="true">
+    <div class="modal modal--narrow">
+        <div class="modal__header">
+            <h2>Add Semester</h2>
+            <button class="modal__close" id="closeAddSemModal" aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal__body">
+            <div class="form-group">
+                <label for="semName">Semester name</label>
+                <input type="text" id="semName" placeholder="e.g. Semester 4 or Summer Term" autocomplete="off">
+            </div>
+        </div>
+        <div class="modal__footer">
+            <button class="btn-secondary" id="cancelAddSemModal">Cancel</button>
+            <button class="btn-primary"   id="saveSemBtn">Add Semester</button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/courses.js"></script>
+</body>
+</html>
